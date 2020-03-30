@@ -45,6 +45,11 @@ def plot_oud_grid(strings: List[str]) -> None:
         print(i, l)
     print()
 
+def plot_clear_grid(strings: List[str]) -> None:
+    for i, l in enumerate(strings, 1):
+        print(i, "".join(["-" for _ in range(len(l))]))
+    print()
+
 
 def main(note_sheet):
 
@@ -56,6 +61,11 @@ def main(note_sheet):
         strings = split_master_string_into_oud_strings(master_string)
         plot_oud_grid(strings)
         sleep(1)
+        
+        # reset the grid. For animating strings (in case the next note is the same)
+        clear()
+        plot_clear_grid(strings)
+        sleep(0.2)
 
     clear()
 

@@ -1,16 +1,19 @@
+# source: https://www.youtube.com/watch?v=tsjgCaa_6ek
 saaloony_elnas = """RE RE RE    RE RE RE    RE RE RE    RE RE RE RE
-RE LA SOL LA    FA SOL  LA SI LA SI
-SOL LA SOL LA   FA SOL SOL  ::  RE LA SOL LA    FA SOL  LA SI LA SI    ::   SOL SOL FA SOL FA FA MI MI RE RE
-DO LA SI SOL LA FA SOL MI"""
+RE La Sol La    Fa Sol  La Si La Si
+Sol La Sol La   Fa Sol Sol  ::  RE La Sol La    Fa Sol  La Si La Si    ::   Sol Sol Fa Sol Fa Fa Mi Mi RE RE
+Do La Si Sol La Fa Sol Mi"""
 
 saaloony_elnas = [n for n in saaloony_elnas.split() if n is not "::"]
 
 
+
+# source: https://www.youtube.com/watch?v=pmHqqD35r-E 
 ramsis_kasis_lesson5 = """RE MI Fa MI RE MI RE :: DO RE MI Fa MI :: DO RE MI RE DO SI LA :: Fa MI RE MI RE ::
 
-La La La La Si La So :: Do Si Re Do Si La ::
+La La La La Si La Sol :: Do Si Re Do Si La ::
 
-Si La So La So Fa :: So Fa MI RE DO RE MI Fa :: La So Fa So Fa MI :: Fa MI RE DO SI DO RE
+Si La So La Sol Fa :: Sol Fa MI RE DO RE MI Fa :: La Sol Fa Sol Fa MI :: Fa MI RE DO SI DO RE
 
 MI        Fa Sol :: Fa MI                   :: MI MI MI Fa Sol :: Fa MI
 
