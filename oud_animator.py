@@ -101,7 +101,7 @@ if __name__ == "__main__":
 
     from sample_music_sheets import ramsis_kasis, test_notes
 
-    all_notes = args.note if args.note else ["FA", ["SOL", "RE"], "DO"]  # or test_notes
-    all_notes = args.note if args.note else ramsis_kasis
+    all_notes = args.note.split() if args.note else ["FA", ["SOL", "RE"], "DO"]  # or test_notes
+    all_notes = args.note.split() if args.note else ramsis_kasis
 
     main(note_sheet=all_notes, speed=args.speed)
