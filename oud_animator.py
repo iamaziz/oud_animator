@@ -1,71 +1,19 @@
 from time import sleep
 from typing import List, Union
 
+from config import NOTES_MAP, MASTER_STRING_LEN, NUM_STRINGS, NOTES_INTERVAL, STRING_LEN
 from lib import clear
-
-# -- PARAMETERS to setup the grid of the OUD neck (Zend)
-# NOTE: the params below are carefully chosen!!
-MASTER_STRING_LEN = 490
-NUM_STRINGS = 7
-NOTES_INTERVAL = 15     # distance between two notes on a line
-# a correct string length is 70
-STRING_LEN = int(MASTER_STRING_LEN / NUM_STRINGS)
-
-
-NOTES_MAP = {
-    # ß --> bemol       (on keyboard: options + s)
-    # --> diez        (on keyboard: shift + 3)
-
-    # for reference see:
-    # https://en.wikipedia.org/wiki/Key_signature_names_and_translations
-
-    # MAP legend
-    # ----------
-    # NOTENAME: (StringNumber) + (Number of shift on the string)
-    # ###########################################################
-
-    # string #1
-    "FA": (STRING_LEN * 0),
-    "SOL": (STRING_LEN * 0) + (NOTES_INTERVAL * 2),
-    # string #2
-    "LA": (STRING_LEN * 1),
-    "SI": (STRING_LEN * 1) + (NOTES_INTERVAL * 1),
-    "DO": (STRING_LEN * 1) + (NOTES_INTERVAL * 3),
-    # string #3
-    "RE": (STRING_LEN * 2),
-    "MIß": (STRING_LEN * 2) + (NOTES_INTERVAL * 1),
-    "MI": (STRING_LEN * 2) + (NOTES_INTERVAL * 2),
-    "Fa": (STRING_LEN * 2) + (NOTES_INTERVAL * 3),
-    "Fa#": (STRING_LEN * 2) + (NOTES_INTERVAL * 4),
-    # string #4
-    "Sol": (STRING_LEN * 3),
-    "Laß": (STRING_LEN * 3) + (NOTES_INTERVAL * 1),
-    "La": (STRING_LEN * 3) + (NOTES_INTERVAL * 2),
-    "Si": (STRING_LEN * 3) + (NOTES_INTERVAL * 3),
-    "Si#": (STRING_LEN * 3) + (NOTES_INTERVAL * 4),
-    # string #5
-    "Do": (STRING_LEN * 4),
-    "Reß": (STRING_LEN * 4) + (NOTES_INTERVAL * 1),
-    "Re": (STRING_LEN * 4) + (NOTES_INTERVAL * 2),
-    "Mi": (STRING_LEN * 4) + (NOTES_INTERVAL * 3),
-    "Faß": (STRING_LEN * 4) + (NOTES_INTERVAL * 4),
-    # string #6
-    "fa": (STRING_LEN * 5),
-    "sol": (STRING_LEN * 5) + (NOTES_INTERVAL * 2),
-    "laß": (STRING_LEN * 5) + (NOTES_INTERVAL * 3),
-    "la": (STRING_LEN * 5) + (NOTES_INTERVAL * 4),
-}
 
 
 def build_master_string_with_current_note(notes: List[str]) -> List[str]:
     """build a long line 'a string' to represent all the six strings of the Oud as one segment.
     This is easier for indexing (and inserting) notes.
-    ::notes: list, of the same-time notes to play together e.g [FA, Sol]
+    ::notes: list, of the notes to be played together at a time e.g [FA, Sol] or [MI]
     """
     # create the master string
 
     # e.g. {'FA': 0, 'Fa': 185}
-    current_notes = {NOTES_MAP[note]: note for note in notes}
+    current_notes = {NOTES_MAP.get(note, None): note for note in notes}
 
     master_string = []
     for i in range(MASTER_STRING_LEN):
@@ -95,6 +43,7 @@ def split_master_string_into_oud_strings(master_string: List[str]) -> List[str]:
 def plot_oud_grid(strings: List[str]) -> None:
     for i, l in enumerate(strings, 1):
         print(i, l)
+    print()
 
 
 def main(note_sheet):
@@ -120,5 +69,14 @@ if __name__ == "__main__":
     except IndexError:
         all_notes = ['FA', 'SOL', 'LA', 'SI', 'DO', 'RE', 'MIß', 'MI', 'Fa', 'Fa#',
                      'Sol', 'Laß', 'La', 'Si', 'Si#', 'Do', 'Reß', 'Re', 'fa', 'sol', 'laß']
+        from sample_music_sheets import ramsis_kasis
+        all_notes = ramsis_kasis
 
+    # TODO: assert all_notes is a clean
+    # TODO: also output info e.g. now playing ... bla bla or your note sheet is invalid!
+    print(all_notes)
+    
     main(note_sheet=all_notes)
+
+
+
