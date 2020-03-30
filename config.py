@@ -20,6 +20,9 @@ NOTES_INTERVAL = 15     # distance between two notes on a line
 # a correct string length is 70
 STRING_LEN = int(MASTER_STRING_LEN / NUM_STRINGS)
 
+# sleep time before note transition
+SPEED = 1
+
 
 # MAP legend
 # ----------

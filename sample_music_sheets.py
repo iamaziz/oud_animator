@@ -1,3 +1,5 @@
+test_notes = "FA SOL LA SI DO RE MI Fa Fa# Sol Laß La Si Do Re Mi fa sol laß la"
+
 # source: https://www.youtube.com/watch?v=tsjgCaa_6ek
 saaloony_elnas = """RE RE RE    RE RE RE    RE RE RE    RE RE RE RE
 RE La Sol La    Fa Sol  La Si La Si
@@ -7,8 +9,7 @@ Do La Si Sol La Fa Sol Mi"""
 saaloony_elnas = [n for n in saaloony_elnas.split() if n is not "::"]
 
 
-
-# source: https://www.youtube.com/watch?v=pmHqqD35r-E 
+# source: https://www.youtube.com/watch?v=pmHqqD35r-E
 ramsis_kasis_lesson5 = """RE MI Fa MI RE MI RE :: DO RE MI Fa MI :: DO RE MI RE DO SI LA :: Fa MI RE MI RE ::
 
 La La La La Si La Sol :: Do Si Re Do Si La ::
