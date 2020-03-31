@@ -16,12 +16,9 @@
 # NOTE: the params below are carefully chosen!!
 MASTER_STRING_LEN = 490
 NUM_STRINGS = 7
-NOTES_INTERVAL = 15     # distance between two notes on a line
+NOTES_INTERVAL = 15  # distance between two notes on a line
 # a correct string length is 70
 STRING_LEN = int(MASTER_STRING_LEN / NUM_STRINGS)
-
-# sleep time before note transition
-SPEED = 1
 
 
 # MAP legend
@@ -36,6 +33,7 @@ NOTES_MAP = {
     "LA": (STRING_LEN * 1),
     "SI": (STRING_LEN * 1) + (NOTES_INTERVAL * 1),
     "DO": (STRING_LEN * 1) + (NOTES_INTERVAL * 3),
+    "REß": (STRING_LEN * 1) + (NOTES_INTERVAL * 4),
     # string #3
     "RE": (STRING_LEN * 2),
     "MIß": (STRING_LEN * 2) + (NOTES_INTERVAL * 1),
