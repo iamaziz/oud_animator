@@ -20,7 +20,6 @@ NOTES_INTERVAL = 15  # distance between two notes on a line
 # a correct string length is 70
 STRING_LEN = int(MASTER_STRING_LEN / NUM_STRINGS)
 
-
 # MAP legend
 # ----------
 # NOTENAME: (StringNumber) + (Number of shift on the string)
@@ -57,4 +56,39 @@ NOTES_MAP = {
     "sol": (STRING_LEN * 5) + (NOTES_INTERVAL * 2),
     "laß": (STRING_LEN * 5) + (NOTES_INTERVAL * 3),
     "la": (STRING_LEN * 5) + (NOTES_INTERVAL * 4),
+}
+
+
+NOTES_INDEX = {
+    # string #1
+    "FA": [0, NOTES_INTERVAL * 0],
+    "SOL": [0, NOTES_INTERVAL * 2],
+    # string #2
+    "LA": [1, NOTES_INTERVAL * 0],
+    "SI": [1, NOTES_INTERVAL * 1],
+    "DO": [1, NOTES_INTERVAL * 3],
+    "REß": [1, NOTES_INTERVAL * 4],
+    # string #3
+    "RE": [2, NOTES_INTERVAL * 0],
+    "MIß": [2, NOTES_INTERVAL * 1],
+    "MI": [2, NOTES_INTERVAL * 2],
+    "Fa": [2, NOTES_INTERVAL * 3],
+    "Fa#": [2, NOTES_INTERVAL * 4],
+    # string #4
+    "Sol": [3, NOTES_INTERVAL * 0],
+    "Laß": [3, NOTES_INTERVAL * 1],
+    "La": [3, NOTES_INTERVAL * 2],
+    "Si": [3, NOTES_INTERVAL * 3],
+    "Si#": [3, NOTES_INTERVAL * 4],
+    # string #5
+    "Do": [4, NOTES_INTERVAL * 0],
+    "Reß": [4, NOTES_INTERVAL * 1],
+    "Re": [4, NOTES_INTERVAL * 2],
+    "Mi": [4, NOTES_INTERVAL * 3],
+    "Faß": [4, NOTES_INTERVAL * 4],
+    # string #6
+    "fa": [5, NOTES_INTERVAL * 0],
+    "sol": [5, NOTES_INTERVAL * 2],
+    "laß": [5, NOTES_INTERVAL * 3],
+    "la": [5, NOTES_INTERVAL * 4],
 }
