@@ -44,8 +44,8 @@ NOTES_MAP = {
     "Sol": (STRING_LEN * 3),
     "Laß": (STRING_LEN * 3) + (NOTES_INTERVAL * 1),
     "La": (STRING_LEN * 3) + (NOTES_INTERVAL * 2),
-    "Si": (STRING_LEN * 3) + (NOTES_INTERVAL * 3),
-    "Si#": (STRING_LEN * 3) + (NOTES_INTERVAL * 4),
+    "Siß": (STRING_LEN * 3) + (NOTES_INTERVAL * 3),
+    "Si": (STRING_LEN * 3) + (NOTES_INTERVAL * 4),
     # string #5
     "Do": (STRING_LEN * 4),
     "Reß": (STRING_LEN * 4) + (NOTES_INTERVAL * 1),
