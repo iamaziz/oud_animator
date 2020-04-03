@@ -6,11 +6,11 @@ from config import NOTES_INDEX, NUM_STRINGS, STRING_LEN
 
 
 class OudAnimator:
-
     def __init__(self, speed=1):
         # self.speed: float = speed
         self.current_board: List[str] = []  # the Oud's Zend state
         self.current_master_string: List[Union[str, Any]] = []
+        self.number_notes: int = 0
         self.played_notes: List[str] = []
 
         self.screen = curses.initscr()
@@ -20,20 +20,23 @@ class OudAnimator:
         curses.endwin()
 
     def __str__(self):
-        return "\n".join([f"{i} " + "".join(string) for i, string in enumerate(self.current_board, 1)])
+        # 'i' for the string numbers
+        # return "\n".join([f"{i} " + "".join(string) for i, string in enumerate(self.current_board, 1)])
+        return "\n".join(["".join(string) for string in self.current_board])
 
     def progress(self):
-        s = "note progress:\n"
+        s = f"{len(self.played_notes)}/{self.number_notes} note progress:\n"
         for n in self.played_notes:
             s += f" {n} "
-        return "\n".join([s[i: i + STRING_LEN] for i in range(0, len(s), STRING_LEN)])
+        # enforce the length of the progress bar to not exceed the STRING_LEN
+        return "\n".join([s[i : i + STRING_LEN] for i in range(0, len(s), STRING_LEN)])
 
     def build_zend(self):
         zend = []
         # Oud strings
         for i in range(NUM_STRINGS):
             oud_string = []
-            for j in range(STRING_LEN + 1):
+            for j in range(STRING_LEN):
                 oud_string.append("-")
             zend.append(oud_string)
         # insert header and string_number column
@@ -48,19 +51,13 @@ class OudAnimator:
             string_no, note_position = NOTES_INDEX.get(note, [None, None])
             if (string_no and note_position) is not None:
                 self.current_board[string_no][note_position] = f"{note}"
-                # trim string
-                self.current_board[string_no] = self.current_board[string_no][:STRING_LEN]
+                self.played_notes.append(note)
+                # trim string length
+                self.current_board[string_no] = self.current_board[string_no][
+                    :STRING_LEN  # - len(note)
+                ]
 
     # DISPLAY
-    def note_progress(func):
-        # wrapper to display note progress while Zend's state changes
-        def inner(self, *args):
-            self.screen.addstr(10, 0, self.progress())
-            func(self, *args)
-
-        return inner
-
-    @note_progress
     def curses_ui(self):
         # Grab curses screen
         screen = self.screen
@@ -69,16 +66,16 @@ class OudAnimator:
         curses.napms(100)  # self.speed)
 
         # Display the current state of the Oud Zend
-        # for i, l in enumerate(self.current_board, 1):
-        #     screen.addstr(i, 0, f"{i} {self.current_board[i - 1]}")
         screen.addstr(0, 0, self.__str__())
+        screen.addstr(10, 0, self.progress())
+
         # Changes go in to the screen buffer and only get
         # displayed after calling `refresh()` to update
         screen.refresh()
 
     def run(self, note_sheet: Union[List[str], List[List]], speed: float):
+        self.number_notes = len(note_sheet)
         while note_sheet:
-            # clear()
             next_ = note_sheet.pop(0)
             next_ = [next_] if isinstance(next_, str) else next_
 
