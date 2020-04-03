@@ -1,104 +1,100 @@
+import curses
 from time import sleep
 from typing import List, Union, Any
 
-from config import NOTES_MAP, MASTER_STRING_LEN, NUM_STRINGS, STRING_LEN
-from lib import clear
+from config import NOTES_INDEX, NUM_STRINGS, STRING_LEN, NOTES_INTERVAL
 
 
 class OudAnimator:
     def __init__(self):
-        self.current_board: List[str] = []  # For the Oud's Zend state
+        self.current_board: List[str] = []  # the Oud's Zend state
         self.current_master_string: List[Union[str, Any]] = []
+        self.number_notes: int = 0
         self.played_notes: List[str] = []
 
-    def __repr__(self):
-        s = "note progress:\n"
+        self.screen = curses.initscr()
+        curses.curs_set(0)  # hide cursor
+
+    def __del__(self):
+        curses.endwin()
+
+    def __str__(self):
+        # 'i' for the string numbers
+        return "\n".join(
+            [
+                f"{i}  " + "".join(string)
+                for i, string in enumerate(self.current_board, 1)
+            ]
+        )
+
+    def note_progress(self):
+        s = f"{len(self.played_notes)}/{self.number_notes} note progress:\n"
         for n in self.played_notes:
             s += f" {n} "
+        # enforce the same length of the STRING_LEN
         return "\n".join([s[i : i + STRING_LEN] for i in range(0, len(s), STRING_LEN)])
 
-    def build_master_string_with_current_note(
-        self, notes: Union[List[str], str]
-    ) -> List[str]:
-        """build a long line 'a string' to represent all the six strings of the Oud as one segment.
-        This is easier for indexing (and inserting) notes.
-        ::notes: list, of the notes to be played together at a time e.g [FA, Sol] or [MI]
-        """
-        # create the master string
+    def build_zend(self):
+        zend = []
+        # Oud strings
+        for i in range(NUM_STRINGS):
+            oud_string = []
+            for j in range(STRING_LEN):
+                oud_string.append("-")
+            zend.append(oud_string)
+        self.current_board = zend
 
-        # e.g. {'FA': 0, 'Fa': 185}
-        current_notes = {NOTES_MAP.get(note, None): note for note in notes}
+    @staticmethod
+    def zend_header():
+        spaces = " " * (NOTES_INTERVAL - 6)
+        header = [f"finger{i}" if i is not 0 else "open" for i in range(5)]
+        header = "  " + f"{spaces}".join(header)
+        return header
 
-        master_string = []
-        for i in range(MASTER_STRING_LEN):
-            if i in current_notes.keys():
-                note = current_notes[i]
-                master_string.append(note)
+    def insert_notes(self, current_notes: List[str]):
+        for note in current_notes:
+            string_no, note_position = NOTES_INDEX.get(note, [None, None])
+            if (string_no and note_position) is not None:
+                self.current_board[string_no][note_position] = f"{note}"
                 self.played_notes.append(note)
-            else:
-                master_string.append("-")
-        self.current_master_string = master_string
-        return master_string
+                # trim string length
+                self.current_board[string_no] = self.current_board[string_no][
+                    : STRING_LEN - len(note) + 1
+                ]
 
-    def split_master_string_into_oud_strings(self):  # , master_string: List[str]):
-        """Split the master string into Oud strings (6)"""
+    # DISPLAY
+    def curses_ui(self):
+        # Grab curses screen
+        screen = self.screen
 
-        strings = []
-        slider = 0, STRING_LEN  # over strings
-        for i in range(1, NUM_STRINGS):
-            line = self.current_master_string[slider[0] : slider[1] + 1]
-            slider = slider[1], slider[1] + STRING_LEN  # slide to the next string
-            # trim extra dashes in the line (caused by the induced note char) to
-            # enforce a unified length of lines
-            string = "".join(line)[:STRING_LEN]
-            strings.append(string)
-        self.current_board = strings
-        # return strings
+        curses.napms(100)  # To flash between repeated note
 
-    def note_progress(func):
-        def inner(self, *args):
-            func(self, *args)
-            print(self)
+        # Display the current state of the Oud Zend
+        screen.addstr(0, 0, self.zend_header())
+        screen.addstr(2, 0, self.__str__())
+        screen.addstr(10, 0, self.note_progress())
 
-        return inner
-
-    @note_progress
-    def plot_oud_grid(self):  # , strings: List[str]) -> None:
-        for i, l in enumerate(self.current_board, 1):
-            print(i, l)
-        print()
-
-    # def plot(self):
-    #     import urwid
-    #
-    #     txt = urwid.Text("Hello World")
-    #     fill = urwid.Filler(txt, "top")
-    #     loop = urwid.MainLoop(fill)
-    #     loop.run()
+        # Changes go in to the screen buffer and only get
+        # displayed after calling `refresh()` to update
+        screen.refresh()
 
     def run(self, note_sheet: Union[List[str], List[List]], speed: float):
+        self.number_notes = len(note_sheet)
         while note_sheet:
-            clear()
             next_ = note_sheet.pop(0)
             next_ = [next_] if isinstance(next_, str) else next_
 
-            self.build_master_string_with_current_note(next_)
-            self.split_master_string_into_oud_strings()
-            self.plot_oud_grid()
+            self.build_zend()
+            self.insert_notes(next_)
+            self.curses_ui()
             # transition time before the next note
             sleep(speed)
 
-            # reset the grid. For animating strings (in case the next note is the same)
-            clear()
+            # Reset the grid.
+            # For animating strings (in case the next note is the same)
             # re-create an empty boar (Oud Zend)
-            reset = [
-                "".join(["-" for _ in range(STRING_LEN)]) for _ in range(1, NUM_STRINGS)
-            ]
-            self.current_board = reset
-            self.plot_oud_grid()
-            sleep(0.2)
-
-        clear()
+            self.build_zend()
+            self.curses_ui()
 
 
 def main(note_sheet, speed):
@@ -107,12 +103,23 @@ def main(note_sheet, speed):
 
 
 if __name__ == "__main__":
-
-    import sys
     from argparse import ArgumentParser
+    from note_sheets import maqam
 
     parser = ArgumentParser()
-    parser.add_argument("-note", help="note sheet", required=False)
+    notes = parser.add_mutually_exclusive_group()
+    notes.add_argument(
+        "-note",
+        help="the note sheet as space-separated string",
+        required=False,
+        type=str,
+    )
+    notes.add_argument(
+        "-maqam",
+        help="choose Maqam to display its notes",
+        required=False,
+        choices=[m for m in dir(maqam) if not m.startswith("_")],
+    )
     parser.add_argument(
         "-speed",
         help="transition speed between notes (i.e. sleep time in seconds)",
@@ -121,11 +128,16 @@ if __name__ == "__main__":
     )
     args = parser.parse_args()
 
-    from sample_music_sheets import ramsis_kasis, test_notes, saaloony_elnas
-
     all_notes = args.note.split() if args.note else ["FA", ["SOL", "RE"], "DO"]
-    all_notes = args.note.split() if args.note else test_notes.split()
-    all_notes = args.note.split() if args.note else saaloony_elnas.split()
-    all_notes = args.note.split() if args.note else ramsis_kasis.split()
+    if args.maqam:
+        all_notes = getattr(maqam, args.maqam).split()
+
+    elif args.note:
+        all_notes = args.note.split()
+    else:
+
+        from note_sheets import ramsis_kasis
+
+        all_notes = ramsis_kasis.lesson5.split()
 
     main(note_sheet=all_notes, speed=args.speed)
