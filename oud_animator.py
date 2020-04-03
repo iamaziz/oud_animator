@@ -28,11 +28,11 @@ class OudAnimator:
             ]
         )
 
-    def progress(self):
+    def note_progress(self):
         s = f"{len(self.played_notes)}/{self.number_notes} note progress:\n"
         for n in self.played_notes:
             s += f" {n} "
-        # enforce the length of the progress bar to not exceed the STRING_LEN
+        # enforce the same length of the STRING_LEN
         return "\n".join([s[i : i + STRING_LEN] for i in range(0, len(s), STRING_LEN)])
 
     def build_zend(self):
@@ -45,7 +45,14 @@ class OudAnimator:
             zend.append(oud_string)
         self.current_board = zend
 
-    def insert_notes(self, current_notes):
+    @staticmethod
+    def zend_header():
+        spaces = " " * (NOTES_INTERVAL - 6)
+        header = [f"finger{i}" if i is not 0 else "open" for i in range(5)]
+        header = "  " + f"{spaces}".join(header)
+        return header
+
+    def insert_notes(self, current_notes: List[str]):
         for note in current_notes:
             string_no, note_position = NOTES_INDEX.get(note, [None, None])
             if (string_no and note_position) is not None:
@@ -57,23 +64,16 @@ class OudAnimator:
                 ]
 
     # DISPLAY
-    def zend_header(self):
-        spaces = " " * (NOTES_INTERVAL - 6)
-        header = [f"finger{i}" if i is not 0 else "open" for i in range(5)]
-        header = "  " + f"{spaces}".join(header)
-        return header
-
     def curses_ui(self):
         # Grab curses screen
         screen = self.screen
 
-        screen.refresh()
-        curses.napms(100)  # self.speed)
+        curses.napms(100)  # To flash between repeated note
 
         # Display the current state of the Oud Zend
         screen.addstr(0, 0, self.zend_header())
         screen.addstr(2, 0, self.__str__())
-        screen.addstr(10, 0, self.progress())
+        screen.addstr(10, 0, self.note_progress())
 
         # Changes go in to the screen buffer and only get
         # displayed after calling `refresh()` to update
@@ -91,7 +91,8 @@ class OudAnimator:
             # transition time before the next note
             sleep(speed)
 
-            # reset the grid. For animating strings (in case the next note is the same)
+            # Reset the grid.
+            # For animating strings (in case the next note is the same)
             # re-create an empty boar (Oud Zend)
             self.build_zend()
             self.curses_ui()
@@ -115,7 +116,7 @@ if __name__ == "__main__":
     )
     args = parser.parse_args()
 
-    from sample_music_sheets import ramsis_kasis, test_notes, saaloony_elnas
+    from note_sheets.sample_music_sheets import ramsis_kasis, test_notes, saaloony_elnas
 
     all_notes = args.note.split() if args.note else ["FA", ["SOL", "RE"], "DO"]
     all_notes = args.note.split() if args.note else test_notes.split()
