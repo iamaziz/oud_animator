@@ -2,7 +2,7 @@ import curses
 from time import sleep
 from typing import List, Union, Any
 
-from config import NOTES_INDEX, NUM_STRINGS, STRING_LEN
+from config import NOTES_INDEX, NUM_STRINGS, STRING_LEN, NOTES_INTERVAL
 
 
 class OudAnimator:
@@ -21,8 +21,12 @@ class OudAnimator:
 
     def __str__(self):
         # 'i' for the string numbers
-        # return "\n".join([f"{i} " + "".join(string) for i, string in enumerate(self.current_board, 1)])
-        return "\n".join(["".join(string) for string in self.current_board])
+        return "\n".join(
+            [
+                f"{i}  " + "".join(string)
+                for i, string in enumerate(self.current_board, 1)
+            ]
+        )
 
     def progress(self):
         s = f"{len(self.played_notes)}/{self.number_notes} note progress:\n"
@@ -39,11 +43,6 @@ class OudAnimator:
             for j in range(STRING_LEN):
                 oud_string.append("-")
             zend.append(oud_string)
-        # insert header and string_number column
-        # header = ["=" for _ in range(STRING_LEN + 1)]
-        # zend.insert(0, header)
-        # footer = ["=" for _ in range(STRING_LEN + 1)]
-        # zend.append(footer)
         self.current_board = zend
 
     def insert_notes(self, current_notes):
@@ -54,10 +53,16 @@ class OudAnimator:
                 self.played_notes.append(note)
                 # trim string length
                 self.current_board[string_no] = self.current_board[string_no][
-                    :STRING_LEN  # - len(note)
+                    : STRING_LEN - len(note) + 1
                 ]
 
     # DISPLAY
+    def zend_header(self):
+        spaces = " " * (NOTES_INTERVAL - 6)
+        header = [f"finger{i}" if i is not 0 else "open" for i in range(5)]
+        header = "  " + f"{spaces}".join(header)
+        return header
+
     def curses_ui(self):
         # Grab curses screen
         screen = self.screen
@@ -66,7 +71,8 @@ class OudAnimator:
         curses.napms(100)  # self.speed)
 
         # Display the current state of the Oud Zend
-        screen.addstr(0, 0, self.__str__())
+        screen.addstr(0, 0, self.zend_header())
+        screen.addstr(2, 0, self.__str__())
         screen.addstr(10, 0, self.progress())
 
         # Changes go in to the screen buffer and only get

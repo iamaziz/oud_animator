@@ -13,11 +13,9 @@
 """
 
 # -- PARAMETERS to setup the grid of the Oud neck (Zend)
-# NOTE: the params below are carefully chosen!!
-MASTER_STRING_LEN = 490
+MASTER_STRING_LEN = 420  # 490
 NUM_STRINGS = 6
-NOTES_INTERVAL = 15  # distance between two notes on a line
-# a correct string length is 70
+NOTES_INTERVAL = 15  # distance between two neighboring notes on the same string
 STRING_LEN = int(MASTER_STRING_LEN / NUM_STRINGS)
 
 # MAP legend
@@ -78,8 +76,8 @@ NOTES_INDEX = {
     "Sol": [3, NOTES_INTERVAL * 0],
     "Laß": [3, NOTES_INTERVAL * 1],
     "La": [3, NOTES_INTERVAL * 2],
-    "Si": [3, NOTES_INTERVAL * 3],
-    "Si#": [3, NOTES_INTERVAL * 4],
+    "Siß": [3, NOTES_INTERVAL * 3],
+    "Si": [3, NOTES_INTERVAL * 4],
     # string #5
     "Do": [4, NOTES_INTERVAL * 0],
     "Reß": [4, NOTES_INTERVAL * 1],
