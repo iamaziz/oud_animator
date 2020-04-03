@@ -6,8 +6,7 @@ from config import NOTES_INDEX, NUM_STRINGS, STRING_LEN, NOTES_INTERVAL
 
 
 class OudAnimator:
-    def __init__(self, speed=1):
-        # self.speed: float = speed
+    def __init__(self):
         self.current_board: List[str] = []  # the Oud's Zend state
         self.current_master_string: List[Union[str, Any]] = []
         self.number_notes: int = 0
@@ -105,9 +104,22 @@ def main(note_sheet, speed):
 
 if __name__ == "__main__":
     from argparse import ArgumentParser
+    from note_sheets import maqam
 
     parser = ArgumentParser()
-    parser.add_argument("-note", help="note sheet", required=False)
+    notes = parser.add_mutually_exclusive_group()
+    notes.add_argument(
+        "-note",
+        help="the note sheet as space-separated string",
+        required=False,
+        type=str,
+    )
+    notes.add_argument(
+        "-maqam",
+        help="choose Maqam to display its notes",
+        required=False,
+        choices=[m for m in dir(maqam) if not m.startswith("_")],
+    )
     parser.add_argument(
         "-speed",
         help="transition speed between notes (i.e. sleep time in seconds)",
@@ -116,11 +128,16 @@ if __name__ == "__main__":
     )
     args = parser.parse_args()
 
-    from note_sheets.sample_music_sheets import ramsis_kasis, test_notes, saaloony_elnas
-
     all_notes = args.note.split() if args.note else ["FA", ["SOL", "RE"], "DO"]
-    all_notes = args.note.split() if args.note else test_notes.split()
-    all_notes = args.note.split() if args.note else saaloony_elnas.split()
-    all_notes = args.note.split() if args.note else ramsis_kasis.split()
+    if args.maqam:
+        all_notes = getattr(maqam, args.maqam).split()
+
+    elif args.note:
+        all_notes = args.note.split()
+    else:
+
+        from note_sheets import ramsis_kasis
+
+        all_notes = ramsis_kasis.lesson5.split()
 
     main(note_sheet=all_notes, speed=args.speed)
