@@ -15,7 +15,7 @@
 # -- PARAMETERS to setup the grid of the Oud neck (Zend)
 # NOTE: the params below are carefully chosen!!
 MASTER_STRING_LEN = 490
-NUM_STRINGS = 7
+NUM_STRINGS = 6
 NOTES_INTERVAL = 15  # distance between two notes on a line
 # a correct string length is 70
 STRING_LEN = int(MASTER_STRING_LEN / NUM_STRINGS)
