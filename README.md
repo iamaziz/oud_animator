@@ -1,7 +1,7 @@
 
 
 <!-- ![](assets/demo_old.gif) -->
-<div style="text-align:center"><img src="assets/demo.gif" /></div>
+![](assets/demo.gif)
 
 <!-- ![](assets/README-d80578dd.png) -->
 
