@@ -1,6 +1,6 @@
 **Usage:**
 
-```bash
+```
 $ python oud_animator.py -h
 usage: oud_animator.py [-h]
                        [-note NOTE | -maqam {bayat,kurd_do} | -song {khaieef}]
