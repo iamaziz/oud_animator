@@ -121,8 +121,13 @@ if __name__ == "__main__":
         required=False,
         choices=[m for m in dir(maqam) if not m.startswith("_")],
     )
-    notes.add_argument("-song", help="choose a song", required=False, type=str,
-                       choices=[m for m in dir(songs) if not m.startswith("_")],)
+    notes.add_argument(
+        "-song",
+        help="choose a song",
+        required=False,
+        type=str,
+        choices=[m for m in dir(songs) if not m.startswith("_")],
+    )
     parser.add_argument(
         "-speed",
         help="transition speed between notes (i.e. sleep time in seconds)",
@@ -136,7 +141,6 @@ if __name__ == "__main__":
         all_notes = getattr(maqam, args.maqam).split()
 
     elif args.song:
-
 
         all_notes = getattr(songs, args.song).split()
 
