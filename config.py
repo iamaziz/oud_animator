@@ -47,8 +47,8 @@ NOTES_INDEX = {
     "Do": [4, NOTES_INTERVAL * 0],
     "Reß": [4, NOTES_INTERVAL * 1],
     "Re": [4, NOTES_INTERVAL * 2],
-    "Mi": [4, NOTES_INTERVAL * 3],
-    "Faß": [4, NOTES_INTERVAL * 4],
+    "Miß": [4, NOTES_INTERVAL * 3],
+    "Mi": [4, NOTES_INTERVAL * 4],
     # string #6
     "fa": [5, NOTES_INTERVAL * 0],
     "sol": [5, NOTES_INTERVAL * 2],
