@@ -35,21 +35,13 @@ class OudAnimator:
         return "\n".join([s[i : i + STRING_LEN] for i in range(0, len(s), STRING_LEN)])
 
     def build_zend(self):
-        zend = []
-        # Oud strings
-        for i in range(NUM_STRINGS):
-            oud_string = []
-            for j in range(STRING_LEN):
-                oud_string.append("-")
-            zend.append(oud_string)
-        self.current_board = zend
+        self.current_board = [["-"] * STRING_LEN for _ in range(NUM_STRINGS)]
 
     @staticmethod
     def zend_header():
         spaces = " " * (NOTES_INTERVAL - 6)
         header = [f"finger{i}" if i is not 0 else "open" for i in range(5)]
-        header = "  " + f"{spaces}".join(header)
-        return header
+        return "  " + f"{spaces}".join(header)
 
     def insert_notes(self, current_notes: List[str]):
         for note in current_notes:
