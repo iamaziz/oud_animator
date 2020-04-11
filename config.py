@@ -13,7 +13,7 @@
 """
 
 # -- PARAMETERS to setup the grid of the Oud neck (Zend)
-STRING_LEN = 100
+STRING_LEN = 90
 NUM_STRINGS = 6
 NOTES_INTERVAL = 15  # distance between two neighboring notes on the same string
 
@@ -27,7 +27,8 @@ NOTES_INDEX = {
     "SOL": [0, NOTES_INTERVAL * 2],
     # string #2
     "LA": [1, NOTES_INTERVAL * 0],
-    "SI": [1, NOTES_INTERVAL * 1],
+    "SIß": [1, NOTES_INTERVAL * 1],
+    "SI": [1, NOTES_INTERVAL * 2],
     "DO": [1, NOTES_INTERVAL * 3],
     "REß": [1, NOTES_INTERVAL * 4],
     # string #3

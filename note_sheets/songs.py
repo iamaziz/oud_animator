@@ -21,11 +21,11 @@ Do La Si Sol La Fa Sol Mi"""
 
 # -- Ramsis Kasis Lessons
 # source: https://www.youtube.com/watch?v=pmHqqD35r-E
-rk_lesson5 = """RE MI Fa MI RE MI RE :: DO RE MI Fa MI :: DO RE MI RE DO Siß LA :: Fa MI RE MI RE ::
+rk_lesson5 = """RE MI Fa MI RE MI RE :: REß RE MI Fa MI :: REß RE MI RE REß SIß LA :: Fa MI RE MI RE ::
 
 La La La La Siß La Sol :: Do Siß Re Do Siß La ::
 
-Siß La So La Sol Fa :: Sol Fa MI RE DO RE MI Fa :: La Sol Fa Sol Fa MI :: Fa MI RE DO Siß DO RE
+Siß La So La Sol Fa :: Sol Fa MI RE REß RE MI Fa :: La Sol Fa Sol Fa MI :: Fa MI RE REß SIß REß RE
 
 MI        Fa Sol :: Fa MI                   :: MI MI MI Fa Sol :: Fa MI
 
