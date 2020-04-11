@@ -111,21 +111,16 @@ if __name__ == "__main__":
     notes = parser.add_mutually_exclusive_group()
     notes.add_argument(
         "-note",
-        help="the note sheet as space-separated string (e.g. -note 'DO RE MI Fa Sol La Si Do') ",
-        required=False,
-        type=str,
+        help="enter the notes to show. As space-separated string (e.g. -note 'DO RE MI Fa Sol La Si Do')",
     )
     notes.add_argument(
         "-maqam",
         help="choose Maqam to display its notes",
-        required=False,
         choices=[m for m in dir(maqam) if not m.startswith("_")],
     )
     notes.add_argument(
         "-song",
-        help="choose a song",
-        required=False,
-        type=str,
+        help="choose a song from the available songs",
         choices=[m for m in dir(songs) if not m.startswith("_")],
     )
     parser.add_argument(
@@ -136,20 +131,13 @@ if __name__ == "__main__":
     )
     args = parser.parse_args()
 
-    all_notes = args.note.split() if args.note else ["FA", ["SOL", "RE"], "DO"]
     if args.maqam:
-        all_notes = getattr(maqam, args.maqam).split()
-
+        notes2show = getattr(maqam, args.maqam).split()
     elif args.song:
-
-        all_notes = getattr(songs, args.song).split()
-
+        notes2show = getattr(songs, args.song).split()
     elif args.note:
-        all_notes = args.note.split()
+        notes2show = args.note.split()
     else:
+        notes2show = list(NOTES_INDEX.keys())
 
-        from note_sheets import ramsis_kasis
-
-        all_notes = ramsis_kasis.lesson5.split()
-
-    main(note_sheet=all_notes, speed=args.speed)
+    main(note_sheet=notes2show, speed=args.speed)
