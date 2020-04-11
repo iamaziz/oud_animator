@@ -22,14 +22,21 @@ optional arguments:
                         seconds)
 ```
 
-**Demo:**
+**Demo1:**
 
 ![](assets/demo.gif)
+
+**Demo2:**
+
+![](assets/all_notes.gif)
+
 
 **Oud's Zend with notes illustration:**
 
 
-![](assets/README-a9d1911e.png)
+![](assets/README-5a98cab3.png)
+<!-- ![](assets/README-a9d1911e.png) -->
+
 
 
 
