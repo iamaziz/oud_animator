@@ -80,19 +80,10 @@ if __name__ == "__main__":
     
     # Add a title
     st.title("Oud note position animator")
+    st.markdown("> A simple tool to animate music notes on the Oud's neck (Zend)")
 
-    
-    # add header
-    st.markdown(
-        """
-        <p align="center">
-            <a href="https://github.com/iamaziz/oud_animator">
-            <img src="https://raw.githubusercontent.com/iamaziz/oud_animator/master/assets/README-5a98cab3.png" alt="GitHub" width="%100" height="390">
-            </a>
-        </p>
-        """,
-        unsafe_allow_html=True,
-    )
+    # add image as logo
+    st.image("https://raw.githubusercontent.com/iamaziz/oud_animator/master/assets/README-5a98cab3.png", use_column_width=True)
 
     # Streamlit widgets
     st1, st2 = st.columns(2)
