@@ -1,5 +1,15 @@
 Oud Animator
 ============
+
+**_UPDATE_** Now as a Streamlit App 
+
+[![Open in Streamlit][share_badge]][share_link]
+
+[share_badge]: https://static.streamlit.io/badges/streamlit_badge_black_white.svg
+[share_link]: https://oudnote.streamlit.app
+
+<hr>
+
 Animate musical notes on the [Arabic Oud](https://en.wikipedia.org/wiki/Oud) strings (for fun and learning purpose).  
 
 **Usage:**
