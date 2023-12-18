@@ -6,6 +6,9 @@ from note_sheets import maqam, songs
 from config import NOTES_INDEX, NUM_STRINGS, STRING_LEN, NOTES_INTERVAL
 
 
+st.set_page_config(page_title="Oud Animator", page_icon="🎼")
+
+
 class OudAnimator:
     def __init__(self):
         self.current_board: List[str] = []  # the Oud's Zend state
