@@ -58,8 +58,18 @@ class OudAnimator:
 
     def run(self, note_sheet: Union[List[str], List[List]], speed: float):
         self.number_notes = len(note_sheet)
-        with st.expander("Note list"):
-            st.markdown(f"`{note_sheet}`", unsafe_allow_html=True)
+        # with st.expander("Note list"):
+        #     st.markdown(f"`{note_sheet}`", unsafe_allow_html=True)
+        
+        if st.session_state.current_item:
+            with st.expander("INFO"):
+                st.write(st.session_state.current_item)
+                # display youtube video
+                if st.session_state.current_item.get("source"):
+                    st.video(st.session_state.current_item.get("source"))
+        else:
+            st.write(f"Note list: `{note_sheet}`")
+
         while note_sheet:
             next_ = note_sheet.pop(0)
             next_ = [next_] if isinstance(next_, str) else next_
@@ -80,7 +90,7 @@ if __name__ == "__main__":
     
     # Add a title
     st.title("Oud note position animator")
-    st.markdown("> A simple tool to animate music notes on the Oud's neck (Zend)")
+    st.markdown("> A simple tool to illustrate music notes on the Oud's neck (Zend)")
 
     # add image as logo
     st.image("https://raw.githubusercontent.com/iamaziz/oud_animator/master/assets/README-5a98cab3.png", use_column_width=True)
@@ -96,12 +106,17 @@ if __name__ == "__main__":
     speed = st.slider("Transition speed between notes (seconds)", 0.01, 5.0, 1.0)
 
     # run the animation
+    st.session_state.current_item = None
     st1, st2 = st.columns(2)
     if st1.toggle("Animate Notes"):
         if selected_maqam:
-            notes2show = getattr(maqam, selected_maqam).split()
+            item = getattr(maqam, selected_maqam)
+            st.session_state.current_item = item
+            notes2show = getattr(maqam, selected_maqam)['notes'].split()
         elif selected_song:
-            notes2show = getattr(songs, selected_song).split()
+            item = getattr(songs, selected_song)
+            st.session_state.current_item = item
+            notes2show = getattr(songs, selected_song)['notes'].split()
         elif notes_input:
             notes2show = notes_input.split()
         else:
