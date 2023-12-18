@@ -105,7 +105,8 @@ if __name__ == "__main__":
     speed = st.slider("Transition speed between notes (seconds)", 0.01, 5.0, 1.0)
 
     # run the animation
-    if st.button("Animate"):
+    st1, st2 = st.columns(2)
+    if st1.toggle("Animate Notes"):
         if selected_maqam:
             notes2show = getattr(maqam, selected_maqam).split()
         elif selected_song:
@@ -118,6 +119,11 @@ if __name__ == "__main__":
 
         main(note_sheet=notes2show, speed=speed)
 
+    # show notes mapping
+    if st2.toggle("Show Notes Mapping Logic"):
+        # mapping logic
+        st.markdown("> ## <sup>Note Mapping Logic</sup>", unsafe_allow_html=True)
+        st.code(open("config.py").read())
 
     # add footer
     st.markdown(
